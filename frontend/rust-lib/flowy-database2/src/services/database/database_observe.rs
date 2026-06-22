@@ -206,9 +206,9 @@ async fn handle_did_update_row_orders(
       },
     };
 
-    if let Some(view_editor) = database_editor
+    if let Ok(view_editor) = database_editor
       .database_views
-      .get_view_editor(view_id)
+      .get_or_init_view_editor(view_id)
       .await
     {
       trace!(
@@ -237,9 +237,9 @@ async fn handle_did_update_row_orders(
   // handle delete row orders
   for index in delete_row_indexes {
     let index = index as usize;
-    if let Some(view_editor) = database_editor
+    if let Ok(view_editor) = database_editor
       .database_views
-      .get_view_editor(view_id)
+      .get_or_init_view_editor(view_id)
       .await
     {
       let mut view_row_orders = view_editor.row_orders.write().await;
